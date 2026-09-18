@@ -95,6 +95,13 @@ export default function DashboardPage() {
     .reduce((acc, s) => acc + s.cost, 0);
 
   const activeCount = subscriptions.filter((s) => s.isActive).length;
+  const annualSpend = totalMonthly * 12 + totalYearly;
+  const inactiveMonthlyEquivalent = subscriptions
+    .filter((s) => !s.isActive)
+    .reduce(
+      (acc, s) => acc + (s.billingCycle === 'yearly' ? s.cost / 12 : s.cost),
+      0,
+    );
   const activeSubscriptions = subscriptions.filter((subscription) => subscription.isActive);
   const selectedSubscription = subscriptions.find(
     (subscription) => subscription.id === selectedId,
@@ -173,15 +180,13 @@ export default function DashboardPage() {
             icon={<CreditCard className="w-5 h-5" />}
             label="Monthly Cost"
             value={`₹${totalMonthly.toFixed(0)}`}
-            change={{ value: 8, isPositive: false }}
             description="Total recurring charges"
           />
 
           <StatsCard
             icon={<Calendar className="w-5 h-5" />}
             label="Yearly Cost"
-            value={`₹${(totalMonthly * 12 + totalYearly).toFixed(0)}`}
-            change={{ value: 5, isPositive: true }}
+            value={`₹${annualSpend.toFixed(0)}`}
             description="Projected annual spend"
           />
 
@@ -280,10 +285,10 @@ export default function DashboardPage() {
                     Potential Savings
                   </p>
                   <p className="text-2xl font-bold text-green-600">
-                    ₹1,788
+                    ₹{(inactiveMonthlyEquivalent * 12).toFixed(0)}
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    by removing inactive plans
+                    annualized inactive plan cost
                   </p>
                 </div>
               </div>
