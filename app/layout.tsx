@@ -18,12 +18,12 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
+        url: '/sync-board-logo.png',
+        type: 'image/png',
       },
     ],
-    shortcut: '/icon.svg',
-    apple: '/icon.svg',
+    shortcut: '/sync-board-logo.png',
+    apple: '/sync-board-logo.png',
   },
 }
 
